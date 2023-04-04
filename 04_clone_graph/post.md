@@ -43,4 +43,56 @@ value 복사, neighbors cloneNode, neighbors 복사 세 과정이 순차적으�
 2) for of 문을 활용했다.
 
 1)은 insert/delete가 많지 않을 경우 Map이 객체보다 조금 더 성능이 좋을 수 있다고 한다.
-2)는 벤치마크를 찾아보면 for ... of가 forEach보다 느리다고 하는데, 여기서 해보면 더 빠르게 나온다. 해당 문제의 TC가 for... of에 유리하도록 조금 편향적일 가능성도 있다. 추가 조사가 필요할 것 같다.
+2)는 벤치마크를 찾아보면 for ... of가 forEach보다 느리다고 하는데, 여기서 해보면 더 빠르게 나온다.
+해당 문제의 TC가 for... of에 유리하도록 조금 편향적일 가능성도 있다.
+
+직접 테스트를 돌려 보았다.
+
+for, for ... of, forEach에 대하여
+
+length 500의 Array 순회에 소요된 시간에 대한 100회 실행 평균을 구한다
+
+```ts
+const { performance } = require("perf_hooks");
+
+const testObj = [...Array(500)].reduce((acc, __, i) => {acc[i] = i; return acc;}, {});
+const keys = Object.keys(testObj);
+
+let avg = 0;
+
+
+[...Array(100)].forEach(() => {
+  const start = performance.now();
+  [...Array(500)].forEach(() => {
+    let res = 0;
+  
+    // 1) for
+    for(let i = 0; i < 500; i++) {
+      res += testObj[i];
+    }
+    
+    // 2) for ... of
+    for(let i of keys) {
+      res += testObj[i];
+    }
+    
+    // 3) forEach
+    keys.forEach(key => {
+      res += testObj[key];
+    });
+  })
+  const t = performance.now() - start;
+
+  avg += t;
+})
+
+console.log(avg / 100);
+```
+
+
+각각 실행 결과는, 1) 0.34ms 2) 1.75ms 3) 2.27ms 로 확연했다.
+
+순회하는 크기가 큰 경우에는 forEach가 더 빠른 경우도 있다. 앞서 살펴봤던 벤치마크의 경우에 50000개의 array 였다.
+반면 작은 경우에는 이렇게 for 가 압도적으로 빠르고 그 뒤로 for ... of가 이어진다.
+
+이번 문제의 경우 neighbor의 개수가 최대 100개이기 때문에 for ... of에서 더 좋은 결과가 나오지 않았나 생각한다.
