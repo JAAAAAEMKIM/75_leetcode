@@ -16,3 +16,4 @@ function climbStairs(n: number): number {
   }
   return res;
 }
+[ ...Array(5).keys()]
