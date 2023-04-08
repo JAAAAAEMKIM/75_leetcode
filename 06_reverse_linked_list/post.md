@@ -1,6 +1,6 @@
 
 풀이
-단순히 LL을 순회하면서 앞, 뒤 순서만 바꿔주면 되는 간단한 문제이다.
+난이도 Easy에서 알 수 있듯, 단순히 Linked List를 순회하며 앞 뒤 가리키는 순서만 뒤집어주면 되는 간단한 문제다.
 
 ```ts
 function reverseList(head: ListNode | null): ListNode | null {
