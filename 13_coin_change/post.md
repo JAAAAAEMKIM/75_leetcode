@@ -19,7 +19,9 @@ https://leetcode.com/problems/coin-change/editorial/
 
 3. DP (Bottom-up)
 
-coin 한 개로 가능한 값들을 캐싱해둔 후, 그 캐시를 통해 더 상위의 값들을 계산해나간다.
+amount가 k일 때 가능한 최소값을 dp(k)라 하면, dp(1) ~ dp(amount) 값을 아래부터 위로 계산해 나간다.
+
+첫 번째 coin을 사용하는 경우부터 코인을 하나씩 늘려가며 dp를 최신화해주는 방법이다.
 
 Top-down 방식과 시간복잡도는 같은데, (O(S*n)) (S: amount, n: coin의 개수)
 iteration을 통해 문제를 해결해서 훨씬 빠른 결과가 나오는 것 같다.
