@@ -35,3 +35,39 @@ var maxSubArray = function(nums) {
 };
 ```
 최대값을 구할때는 현재까지 순회의 최소값을 j에 저장하여 투포인터처럼 사용했다.
+
+추가로 더 빠른 solution을 찾아보니, kadane's algorithm이라는 방법이 나왔다.
+
+n + 1번째 아이템을 마지막으로 하는 subArray의 최대값은,
+n번째 아이템을 마지막으로 하는 subArray의 최대값 + n + 1번째 아이템
+n + 1번째 아이템
+
+두 가지 경우밖에 없다.
+연속돼야하기 때문에 바로 이전 아이템을 끝으로 하는 최대값이 0보다 크다면 거기에 붙이는 것이 최선이기 때문.
+
+이 원리를 이용하여 DP를해준다.
+
+```ts
+var maxSubArray = function(nums) {
+    let maxSum = nums[0]; // initialize maximum sum as the first element
+    let currentSum = nums[0]; // initialize current sum as the first element
+    
+    for (let i = 1; i < nums.length; i++) {
+        currentSum = Math.max(nums[i], currentSum + nums[i]);
+        maxSum = Math.max(maxSum, currentSum);
+    }
+    
+    return maxSum;
+};
+```
+
+더 직관적인 코드로는 다음이 있다. nums가 dp 배열의 역할을 함.
+
+```ts
+var maxSubArray = function(nums) {  
+    for(let i =1; i<nums.length;i++){
+        nums[i] = Math.max(nums[i],nums[i]+nums[i-1])
+    }
+    return Math.max(...nums)
+};
+```
