@@ -25,3 +25,22 @@ amount가 k일 때 가능한 최소값을 dp(k)라 하면, dp(1) ~ dp(amount) �
 
 Top-down 방식과 시간복잡도는 같은데, (O(S*n)) (S: amount, n: coin의 개수)
 iteration을 통해 문제를 해결해서 훨씬 빠른 결과가 나오는 것 같다.
+
+```ts
+/**
+ * @param {number[]} coins
+ * @param {number} amount
+ * @return {number}
+ */
+var coinChange = function(coins, amount) {
+    const dp = new Array(amount +1).fill(Infinity);
+    dp[0] = 0;
+
+    for(let i =0; i<coins.length; i++){
+        for(let j = coins[i]; j<=amount; j++){
+            dp[j] = Math.min(dp[j], dp[j - coins[i]] +1)
+        }
+    }
+    return dp[amount] == Infinity ? -1 : dp[amount]
+};
+```
