@@ -108,3 +108,5 @@ var threeSum = function (nums) {
     return result;
 }
 ```
+
+왼쪽과 오른쪽 끝값을 조정해가며 원하는 값을 구하는 아이디어를 기억해둬야겠다.
