@@ -13,3 +13,4 @@ var canJump = function(nums) {
   }
   return true;
 };
+
